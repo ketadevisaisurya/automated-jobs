@@ -1,7 +1,7 @@
 import requests
 import json
 
-print("Fetching jobs from public API...")
+print("Fetching jobs from Remotive API...")
 # We use a free API for this test. You can change this later!
 url = "https://www.arbeitnow.com/api/job-board-api"
 response = requests.get(url)
