@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Job Openings</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f4f4f9; }
+        .job-card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .company { color: #666; font-weight: bold; }
+        .badge { background: #e0e0e0; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
+        .remote { background: #d4edda; color: #155724; }
+        a { text-decoration: none; color: #0066cc; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🌟 Today's Top Job Openings</h1>
+    <p>Automatically updated every morning at 9:00 AM.</p>
+    
+    <div id="job-list">Loading jobs... (If this is your first time, run the automation first!)</div>
+
+    <script>
+        // Go fetch the data saved by the Python script
+        fetch('jobs.json')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('job-list');
+                list.innerHTML = ""; // Clear the loading text
+                
+                data.forEach(job => {
+                    const remoteBadge = job.remote ? `<span class="badge remote">Remote</span>` : '';
+                    
+                    list.innerHTML += `
+                        <div class="job-card">
+                            <h3>${job.title}</h3>
+                            <p class="company">${job.company}</p>
+                            <p><span class="badge">${job.location}</span> ${remoteBadge}</p>
+                            <a href="${job.link}" target="_blank">View Job →</a>
+                        </div>
+                    `;
+                });
+            });
+    </script>
+</body>
+</html>
