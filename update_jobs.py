@@ -1,25 +1,28 @@
 import requests
 import json
 
-print("Fetching jobs from Remotive API...")
-# We use a free API for this test. You can change this later!
-url = "https://www.arbeitnow.com/api/job-board-api"
+print("Fetching India tech jobs from Remotive API...")
+
+# We use the Remotive API and add "?search=India" to the end of the URL
+url = "https://remotive.com/api/remote-jobs?search=India"
 response = requests.get(url)
 data = response.json()
 
-# Extract the top 15 jobs
+# Extract the top 15 jobs from the results
 jobs_list = []
-for job in data['data'][:15]:
+
+# Remotive stores their jobs inside 'jobs' instead of 'data'
+for job in data['jobs'][:15]:
     jobs_list.append({
         "title": job['title'],
         "company": job['company_name'],
-        "location": job['location'],
-        "remote": job['remote'],
+        "location": job['candidate_required_location'],
+        "remote": True, # All Remotive jobs are remote
         "link": job['url']
     })
 
-# Save the jobs to a file so the website can read them
+# Save the jobs to a file so your website can read them
 with open('jobs.json', 'w') as f:
     json.dump(jobs_list, f)
 
-print("Success! Saved jobs to jobs.json")
+print("Success! Saved India jobs to jobs.json")
